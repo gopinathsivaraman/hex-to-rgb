@@ -12,16 +12,15 @@ $(document).ready(function(){
 		}
 		
 		if( lengthOfHexField == 4 || lengthOfHexField == 7 ){
-			rgbOfHex = getRGBOfHex( valOfHexField.substring(1,) );
+			convertToRGB( valOfHexField.substring(1,) );
 			
 		}else{
-			$('body').css('background-color', '#a5b');
-			$('#rgb').val("");
+			repaintScreen();
 		}
 	});
 });
 
-function getRGBOfHex(hex){
+function convertToRGB(hex){
 	var hexLength = hex.length;
 	
 	if( isHexValid(hex) ){
@@ -36,12 +35,46 @@ function getRGBOfHex(hex){
 			blue = ( parseInt(hex[4],16) * 16 ) + ( parseInt( hex[5], 16 ) * 1 );
 		}
 		
-		$('body').css('background-color', '#'+hex);
-		$('#rgb').val('rgb('+red+','+green+','+blue+')');
+		// Set the background color of body into given color
+		paintScreen(hex);
 		
+		// Displays rgb value on result box
+		showResult(red, green, blue);
 	}
 }
 
+// Reset Screen and text color to default
+function repaintScreen(){
+	$('body').css('background-color', '#a5b');
+	$('#rgb').val("");
+	
+	// Reset text color to default
+	toggleTextColor(0);
+}
+
+// Set the background color of body into given color
+function paintScreen(hex){
+	$('body').css('background-color', '#'+hex);
+}
+
+function showResult(red, green, blue){
+	// Shows rgb value in text box
+	$('#rgb').val('rgb('+red+','+green+','+blue+')');
+	
+	// Finds brightness of the converted color
+	var brightness = Math.round( ( (red * 299) + (green * 587) + (blue * 114) ) / 1000 );
+	toggleTextColor(brightness);
+}
+
+// Toggle text color to white to black or black to white based on given color brightness
+function toggleTextColor( brightness ){
+	if(brightness > 125)
+		$('#footer div a, .calculator input[type="text"], #header').css('color', '#000')
+	else
+		$('#footer div a, .calculator input[type="text"], #header').css('color', '#FFF')
+}
+
+// Checks the given value is valid hexadecimal value or not
 function isHexValid(hex){
 	isValid = true;
 	

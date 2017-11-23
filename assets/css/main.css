@@ -9,7 +9,6 @@ body{
 
 body{
 	font-family: 'MontserratThin';
-   color: #FFF;
    width: 100% !important;
    padding: 0px;
    margin: 0px;
@@ -17,6 +16,7 @@ body{
 
 
 #header{
+	color: #FFF;
 	height: 54px;
 	width: calc( 100% - 20px);
 	display: table;
